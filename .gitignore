@@ -1,0 +1,8 @@
+# File System
+.DS_Store
+
+# Environment and Keys
+.env
+
+# Logs
+*.log
