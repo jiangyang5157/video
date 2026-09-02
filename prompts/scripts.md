@@ -40,6 +40,7 @@
 根据【目标时长】自主推演最匹配的幕数（无硬性封顶，但须自洽并注明）：
 
 * **超微短剧 (1 分钟)**：3 幕结构（Hook/常态裂变 15s → 冲突爆发 30s → 反转终局 15s）。
+* **微短剧 (2-3 分钟)**：3-4 幕结构（Hook 15s → 中段 2-3 个节奏钩子 → 反转收束）。
 * **标准短剧 (4-5 分钟)**：4-5 幕结构。
 * **中短剧 (6-15 分钟)**：按"场次"推进的 5-7 幕结构，允许 B 线（副线）并行。
 * **长剧单集 / 长片**：见下方"长片/大剧多 Pass 协议"，本文件只负责**单集**或**单个大纲层 Pass**。
@@ -55,7 +56,7 @@
 ### 3. 高张力吸引力控制 (Hook & Cadence Control)
 
 * **黄金 15 秒前置爆点 (In Media Res Hook)**：开场前 15 秒必须直击认知冲突、倒叙危机、生死抉择或荒谬情境，随后再平滑引入世界观设定。
-* **每 45-60 秒微高潮律动 (Every 45s Payoff Rule)**：每隔 45-60 秒必须安排一次物理信息差破裂、危机升维或视觉/听觉微高潮。
+* **节奏钩子律动 (Cadence Hook)**：全片需规律落"节奏钩子"防观众滑走，但**钩子类型与密度随 Preset 走**——A：危机升维/信息差破裂，约每 45-60s 一次；C：奇观升级/战斗转捩，约每 45-60s 一次；B：情绪升格/笑点/关系温度瞬间，约每 60-90s 一次，治愈/轻喜**不强制** 45s 级高潮，允许更长铺陈。
 
 ### 4. 因果质检门 (Causality Lock)
 
@@ -73,7 +74,8 @@
 4. 人名 / 时间码 / 地点 / 道具 / 造型演化无前后矛盾；
 5. 所选 Preset 的微动作、材质物理、声音脾气落到每一个幕段，而非只出现在开头；
 6. 每个角色的 N 套造型 Prompt 均由同一段 Face Baseline 派生并**逐套内联**，且 **Face Baseline 的媒介与 Style Key 一致**；
-7. Style Key 三要素齐全（媒介/光影/清晰度），演出包只在声明启用时注入词汇且遵守其自限。
+7. Style Key 三要素齐全（媒介/光影/清晰度），演出包只在声明启用时注入词汇且遵守其自限；
+8. （若启用了关系矩阵）每个被埋的秘密都有揭穿或兑现，且服务戏剧核——不允许只埋不收。
 
 ---
 
@@ -111,7 +113,7 @@
 * **造型 2 [命名/场景]**：`[同一段 Face Baseline 原样内联] + [造型 2 的差异] ...`
 ```
 
-> 硬规则：**每个造型 Prompt 必须整段内联 Face Baseline**（工具无法跨 Prompt 记忆人物），且各造型之间只允许发型/服装/伤痕/光照不同，**五官基线逐字一致**；造型 prompt 的渲染面貌统一由 `{{Style Key}}` 提供，**不手写具体渲染器**。
+> 硬规则：**每个造型 Prompt 必须整段内联 Face Baseline**（工具无法跨 Prompt 记忆人物），且各造型之间只允许发型/服装/伤痕/光照不同，**五官基线逐字一致**；造型 prompt 的渲染面貌统一由 `{{Style Key}}` 提供，**不手写具体渲染器**；对比/色温等观感级词也一律不写进造型（归 Style Key）。
 
 #### （可选）关系与秘密矩阵 (Relationship & Secrets Matrix)
 
@@ -173,15 +175,15 @@
 * **潜台词微动作**：右手反复按压左腕旧伤（Preset A 词汇）；说谎前指尖敲桌一次。
 * **固定面部基线 Face Baseline**（媒介=写实电影，匹配 Style Key）：`Male, 34, East-Asian, gaunt hollow cheeks, deep-set tired amber eyes, thin straight nose, faint scar across left brow, short messy black hair, light stubble, pale cold skin`
 * **AI 角色造型 Prompts（N=2 套）**：
-* **造型 1 [夜雨风衣·现实]**：`Male, 34, East-Asian, gaunt hollow cheeks, deep-set tired amber eyes, thin straight nose, faint scar across left brow, short messy black hair, light stubble, pale cold skin, wearing weathered black trench coat with damp collar, neon-blue rain-soaked city night, low-key hard side light, high contrast cold tone, {{Style Key}}, --ar 9:16, Negative Prompts: no exaggerated expression, no extra limbs, generic face`
-* **造型 2 [白色病服·梦境]**：`Male, 34, East-Asian, gaunt hollow cheeks, deep-set tired amber eyes, thin straight nose, faint scar across left brow, short messy black hair, light stubble, pale cold skin, wearing sterile white hospital shirt, floating shards of memory-glass around, soft volumetric white-gold light, high contrast cold tone, {{Style Key}}, --ar 9:16, Negative Prompts: no exaggerated expression, no extra limbs, generic face`
+* **造型 1 [夜雨风衣·现实]**：`Male, 34, East-Asian, gaunt hollow cheeks, deep-set tired amber eyes, thin straight nose, faint scar across left brow, short messy black hair, light stubble, pale cold skin, wearing weathered black trench coat with damp collar, neon-blue rain-soaked city night, low-key hard side light, {{Style Key}}, --ar 9:16, Negative Prompts: no exaggerated expression, no extra limbs, generic face`
+* **造型 2 [白色病服·梦境]**：`Male, 34, East-Asian, gaunt hollow cheeks, deep-set tired amber eyes, thin straight nose, faint scar across left brow, short messy black hair, light stubble, pale cold skin, wearing sterile white hospital shirt, floating shards of memory-glass around, soft volumetric white-gold light, {{Style Key}}, --ar 9:16, Negative Prompts: no exaggerated expression, no extra limbs, generic face`
 
 * **角色 ID：@Char_Target [林岚 / 亡妻·任务委托人]**（仅以全息影像与梦境出现）
 * **戏剧心理 Want vs Need**：Want=让陈默把最后记忆交给一个陌生孩子；Need=让陈默放手（委托即遗书）。
 * **声线与口癖 Vocal Signature**：气息虚浮、句尾常上扬成问句；只出现在 V.O. 与影像中。
 * **潜台词微动作**：影像总是先半秒于声音出现（信息差）。
 * **固定面部基线 Face Baseline**：`Female, 31, East-Asian, soft round face, calm grey eyes, small mole under right eye, long straight black hair, gentle pale skin`
-* **AI 角色造型 Prompts（N=1 套）**：`[Face Baseline 原样内联], translucent blue hologram dress, rain-lit apartment interior, edge-lit by projector light, {{Style Key}}, --ar 9:16, ... 同上 Negative`
+* **AI 角色造型 Prompts（N=1 套）**：`[Face Baseline 原样内联], translucent blue hologram dress, rain-lit apartment interior, edge-lit by projector light, {{Style Key}}, --ar 9:16, ... 同上 Negative`（正式输出须整段内联 @Char_Target 的 Face Baseline，此处为缩写示意）
 * **关系与秘密矩阵**（Preset A 信息差题材，启用）：
   * @Char_Main — @Char_Target：真实=陈默与其亡妻（影像为预设留言、非实时通讯）；表面=接单人与委托人。
   * 隐瞒与欺骗：林岚隐瞒"最后一单收货人 = 陈默失散多年的孩子"（幕段 4 拆穿）；陈默对自己隐瞒"他一直在删改妻子死因的记忆"（幕段 3 埋引线）。
@@ -197,7 +199,7 @@
 * **场景环境与 Base 光照**：狭窄公寓，锌灰墙与裸露管线；左侧 45° 冷蓝侧光（Preset A 视听词库：低照度硬光/高对比冷调），窗外霓虹雨。
 * **视觉事件与动作链**：
 1. [0:00 - 0:15] 全息投影闪入 0.5s 先于声音，`@Char_Target` 半透明影像立于屋中；陈默（`@Char_Main` 造型 1）手腕旧伤处裂开一线数据流 [材质：投影电流微闪]（微动作：右手骤按左腕）。
-2. [0:30] 陈默以三句短句确认任务，每句间敲桌一次。
+2. [0:30] 陈默接下任务——只出口一句，其余以肢体应答（微动作：指尖敲桌一次）。
 * **三轨音频规划**：
 * **Foley 音效**：雨点砸窗、投影电流细响、指尖敲桌闷响。
 * **环境 Ambience**：雨夜低频城市底噪 + 远处电车刹停。
@@ -218,7 +220,7 @@
 **所属题材与世界观**：近未来悬疑 × 心理博弈；冷灰都市，符号与代码充斥街巷。
 **情绪物理场 Preset**：Preset A（高张力暗调：紧绷情绪、潜台词微动作、信息差）。
 **渲染风格 Style Key**：2D anime aesthetic, cel shading, clean crisp line art, high-saturation diffuse colors, high-res clean render
-**演出语法修正包**：【动漫演出包】（速度线/夸张透视/符号化情绪——仅用于高潮与惊点，写实情绪处停用）
+**演出语法修正包**：【动漫演出包】（速度线/夸张透视/符号化情绪——仅用于高潮与惊点，日常/文戏停用）
 **目标时长**：3 分钟
 **画幅**：--ar 16:9
 **幕剧架构**：4 幕

@@ -13,7 +13,7 @@
 [--ar 画幅] + [Negative Prompts]
 ```
 
-转换前先做**输入完整性校验**：剧本若缺封面头任一键（Preset / Style Key / 画幅 / 时长）、任一 @Char 的 Face Baseline 与造型、或幕段时间码，先补全/索要再开工。
+转换前先做**输入完整性校验**：剧本若缺封面头键（情绪物理场 Preset / 渲染风格 Style Key / 目标时长 / 画幅 / 幕剧架构 / 戏剧核——演出语法修正包与关系矩阵可缺省）、任一 @Char 的 Face Baseline 与造型、或幕段时间码，先补全/索要再开工。
 
 ---
 
@@ -39,7 +39,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 ### 3. 双重防坍塌工程 (Scene Anchor + Shot Continuation)
 
 * **场景粒度声明**：本体系把"场景"定义为**单一地点 × 连续时间**的场面。一个幕段通常只有一个场面；若一个幕段内含多次地点/时间跳变（长片、中短剧、B 线并行常见），必须为每个新场面**另发独立 Scene Baseline 卡**，按 `Scene N`（跨幕）/ `Scene N-A / N-B`（同幕多场）编号，镜头号前缀随之改为 `Shot N-A.1`。
-* **场景级锚点卡 (Scene Baseline Anchor)**：每个场景（幕段）的首镜前输出一张 `Scene Baseline` 卡：主光源方向/色温/强度、空间材质与主色调、摄影主角度、在场 @Char 与关键道具、时间/天气，以及**声音基准**（本场 Ambience 与 Foley 基调）。该卡是本场景内所有镜头与声音的稳定回归基准。
+* **场景级锚点卡 (Scene Baseline Anchor)**：每个场景（即上方"单个场面"粒度）的首镜前输出一张 `Scene Baseline` 卡：主光源方向/色温/强度、空间材质与主色调、摄影主角度、在场 @Char 与关键道具、时间/天气，以及**声音基准**（本场 Ambience 与 Foley 基调）。该卡是本场景内所有镜头与声音的稳定回归基准。
 * **静态锚点**：场景内每镜的静态照明一律引用场景卡（`Lighting: matching Scene N Baseline, ...`），而非只认上一镜——链条中断仍能回归，杜绝雪球式漂移。
 * **运动接续 (Motion Transition)**：动态 Prompt 以接续态描述：`Starting from [End State of Shot X.X], camera [Trajectory], subject [New Action]`。
 
@@ -115,23 +115,23 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 
 ```text
 [Visual Only] Starting from stillness with eyes fixed slightly off-camera, slow cinematic push in on face at 100mm macro, subject's pupils dilate subtly and right hand presses left wrist scar, hologram shimmer enters frame edge. --ar 9:16
-[+Native Audio 可选｜仅支持原生音效的工具（Kling/Hailuo 类）] rain tapping glass, low data-static hum, a woman's voice begins 0.3s before her image fully appears
+[+Native Audio 可选｜仅支持原生音效的工具（Kling/Hailuo 类）] rain tapping glass, low data-static hum, then the hologram fully forms and, after a 0.5s beat, a woman's voice begins
 ```
 
 **3. 音频生成 Prompt（Audio Only — 供 TTS/SFX/后期）：**
 
 ```text
-[Audio Only] Vocal: @Char_Target(V.O.) "你还是接了。"（虚浮问句声线） @Char_Main "地址。"（沙哑短句）｜Foley(本镜独有): 指尖敲桌一下｜Ambience: 继承 Scene 1 Baseline
+[Audio Only] Vocal: @Char_Target(V.O.) "你还是接了。"（虚浮问句声线）｜Foley(本镜独有): 投影电流细响｜Ambience: 继承 Scene 1 Baseline
 ```
 
-**4. 后期 Lip-Sync 策略：** `@Char_Target 为全息影像侧影，无需重绘；@Char_Main 单字对白，可送 HeyGen/LivePortrait 二次重绘口型`
+**4. 后期 Lip-Sync 策略：** `@Char_Target 为全息侧影 + 纯 V.O.，无需口型重绘；本镜 @Char_Main 无对白，无需重绘`
 
 ---
 
 ### Shot 1.2 [双角色同框 / 动作接续] —— 演示多角色协议
 
 > 📋 **制作参数**：5s | 景别 中景 | 机位 正对 | 光质 低照度硬光+全息冷辉 | 焦段 50mm | 承接 Shot 1.1 全息完全显现
-> ⚠️ **风险标记**：Medium（双主体+半透明材质；含手部动作）
+> ⚠️ **风险标记**：High（双主体同框 + 半透明材质 + 手部动作，按规则 8 分级）
 
 **1. 静态首帧 Prompt（生图工具）：**
 
@@ -148,7 +148,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 **3. 音频生成 Prompt（Audio Only）：**
 
 ```text
-[Audio Only] Vocal: @Char_Main "地址。"（第 2 句，口吻更沉）｜Foley(本镜独有): 手掌穿过投影的轻微静电细响｜Ambience: 继承 Scene 1 Baseline
+[Audio Only] Vocal: @Char_Main "地址。"（唯一出口句，沙哑短句，口吻沉稳）｜Foley(本镜独有): 指尖敲桌一次、手掌穿过投影的轻微静电细响｜Ambience: 继承 Scene 1 Baseline
 ```
 
 **4. 后期 Lip-Sync 策略：** `@Char_Main 正面说话需二次重绘口型；@Char_Target 为 secondary 全息影像，全程侧/虚焦避开口型`
