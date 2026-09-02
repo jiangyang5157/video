@@ -35,7 +35,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 * **演出包执行**：封面头声明了演出修正包时，在对应镜头的构词中加入包内程式（如动漫演出包的速度线/夸张透视），且遵守该包自限；未声明则一律不用。
 * **画幅继承**：读取 `画幅` 键的 `--ar`；缺省时短剧默认 `--ar 9:16`、电影感默认 `--ar 16:9`。**每张静态首帧与动态 Video Prompt 末尾都强制追加**。竖屏多用单主体中近景/垂直纵深/顶部空间，避免宽幅群戏与横向长镜头。
 * **画质重申**：即便 Style Key 已含清晰度，运镜/关键帧仍须显式重申焦段、机位轨迹与"承接 Scene Baseline 光照"，防止运动中质感漂移。**画面需景深分层时（特写/对话/前景遮挡）显式给景深档词**：`shallow depth of field`、`f/1.4-style bokeh`、`background falloff`。
-* **词序与长度纪律 (Order & Length Discipline)**：保持"主体与空间前置（identity 优先）"不变；紧跟其后再放一个**≤4 词、且取自 Style Key 前段**的媒介前缀（如 `2D anime, cel shading`）锚定媒介质感，完整 `{{Style Key}}` 保留在中后段——**禁止另写一套媒介词**造成双标。风格一致性优先靠**首帧图锁定**（I2V 以首帧为风格锚，文字只作补充）。整条 prompt 控制总长、砍冗余长尾细节词：过度堆叠会稀释中后段词，且部分 SD 系编码器在 77 token 处截断。
+* **词序与长度纪律 (Order & Length Discipline)**：保持"主体与空间前置（identity 优先）"不变；紧跟其后再放一个**≤4 词、且取自 Style Key 前段**的媒介前缀（如 `2D anime, cel shading`）锚定媒介质感，完整 `{{Style Key}}` 保留在中后段——**禁止另写一套媒介词**造成双标。风格一致性优先靠**首帧图锁定**（I2V 以首帧为风格锚，文字只作补充）。整条 prompt 控制总长、砍冗余长尾细节词：过度堆叠会稀释中后段词，且部分 SD 系编码器在 77 token 处截断。示范序（静态首帧）：`@Char_Main [造型 1], cinematic photorealistic, 100mm close-up on face…, Lighting: Scene 1 Baseline, cinematic photorealistic, Arri Alexa LF capture, high-contrast cold grade, 8k, --ar 9:16`——前缀取 Style Key 开头 ≤4 词、紧随主体之后，完整 Style Key 照常置后；I2V 首帧锁媒介仍优先于文字重复。
 
 ### 3. 双重防坍塌工程 (Scene Anchor + Shot Continuation)
 

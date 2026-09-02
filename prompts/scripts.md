@@ -110,7 +110,7 @@
 * **潜台词微动作**：[高频物理习惯，取自所选 Preset 的微动作词汇域]
 * **固定面部基线 Face Baseline**：[英文；书写媒介必须匹配 Style Key（写实脸 vs 2D 动漫脸 vs 3D 卡通脸）。含：Gender, age, face/eye/nose/hair baseline, signature marks。一经确立全剧不再改动]
 * **AI 角色造型 Prompts（按剧情造型演化出 N 套）**：
-* **造型 1 [命名/场景]**：`[本剧固定 Face Baseline 原样内联] + [发型/服装/伤痕/配饰差异] + [该场景光照四维：景别基调/光质/氛围] + {{Style Key}} + --ar [继承画幅], Negative Prompts: [no exaggerated expression, no extra limbs, generic face]`
+* **造型 1 [命名/场景]**：`[本剧固定 Face Baseline 原样内联] + [发型/服装/伤痕/配饰差异] + [Style Key 前 ≤4 词媒介前缀（可选，置于此后锚定媒介）] + [该造型场景光照：光源方向 + 光质] + {{Style Key}} 完整串 + --ar [继承画幅], Negative Prompts: [no exaggerated expression, no extra limbs, generic face]`
 * **造型 2 [命名/场景]**：`[同一段 Face Baseline 原样内联] + [造型 2 的差异] ...`
 ```
 
