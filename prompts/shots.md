@@ -35,6 +35,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 * **演出包执行**：封面头声明了演出修正包时，在对应镜头的构词中加入包内程式（如动漫演出包的速度线/夸张透视），且遵守该包自限；未声明则一律不用。
 * **画幅继承**：读取 `画幅` 键的 `--ar`；缺省时短剧默认 `--ar 9:16`、电影感默认 `--ar 16:9`。**每张静态首帧与动态 Video Prompt 末尾都强制追加**。竖屏多用单主体中近景/垂直纵深/顶部空间，避免宽幅群戏与横向长镜头。
 * **画质重申**：即便 Style Key 已含清晰度，运镜/关键帧仍须显式重申焦段、机位轨迹与"承接 Scene Baseline 光照"，防止运动中质感漂移。**画面需景深分层时（特写/对话/前景遮挡）显式给景深档词**：`shallow depth of field`、`f/1.4-style bokeh`、`background falloff`。
+* **词序与长度纪律 (Order & Length Discipline)**：保持"主体与空间前置（identity 优先）"不变；紧跟其后再放一个**≤4 词、且取自 Style Key 前段**的媒介前缀（如 `2D anime, cel shading`）锚定媒介质感，完整 `{{Style Key}}` 保留在中后段——**禁止另写一套媒介词**造成双标。风格一致性优先靠**首帧图锁定**（I2V 以首帧为风格锚，文字只作补充）。整条 prompt 控制总长、砍冗余长尾细节词：过度堆叠会稀释中后段词，且部分 SD 系编码器在 77 token 处截断。
 
 ### 3. 双重防坍塌工程 (Scene Anchor + Shot Continuation)
 
@@ -61,14 +62,18 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 * 分镜中涉及的角色必须精准调用剧本中定义的 `@Char_ID` 及其对应场景的 **[造型 Prompt]**（含其 Face Baseline），不得自行改写五官。
 * 继承并强制分布剧本定义的【潜台词微动作】，且只能以画面/动作呈现，禁止写成旁白式说明文字。
 
-### 6. 剪切点动作捕捉 (Cut on Action)
+### 6. 生成/剪辑边界 (Generation vs Edit Boundary)
 
-分镜描述必须明确标注动作切分点：`Mid-action cut: Shot ends as the glass cracks, Shot N+1 starts from the flying glass shards`。让下一镜从上一镜的动作中途接管。
+Cut on Action 是**剪辑哲学，不是生成指令**——T2V/I2V 模型无法精确在"第 2.1 秒手触门把"处停格，给中止指令只会让它渲染出僵住的定格。因此显式拆成两端：
 
-### 7. 口型与发声控制 (Lip Movement Anchor)
+* **生成端（Gen Prompt）**：只描述**完整动作链 + 过冲/惯性（follow-through）**，素材生成略长于所需（如 3s 内容生成 4-5s），剪切留给后期。动态 prompt 一律不出现"停在 X 秒 / 动作中途结束 / cut"类指令。
+* **剪辑端（Edit Boundary）**：每镜在"剪辑端"行标注剪切意图：`[Edit Point: Shot ends as the glass cracks] / Cut on Action → Shot N+1 starts from flying shards`。这是分镜给后期/下一镜的元数据，**不进任何生成 prompt**；镜头衔接靠规则 3 的"上一镜尾态"在生成词里继承。
 
-* 有对白/讲话的镜头，动态 [Visual Only] prompt 必须注入唇部与面部发声微动作：`subject speaks with subtle lip movement, lower jaw slightly vibrating`，防止画面僵硬。
-* 对白文本一律进入 Audio 区并标注 `@Char_ID`，贴合其 Vocal Signature；按旁白/对白/侧影决定是否二次口型重绘。
+### 7. 口型、发声与微表情控制 (Lip, Voice & Micro-Expression Anchor)
+
+* **口型/发声**：有对白或讲话的镜头，动态 [Visual Only] prompt 注入唇部与发声微动作：`subject speaks with subtle lip movement, lower jaw slightly vibrating`，防止画面僵硬；对白文本一律进 Audio 区并标注 `@Char_ID`，贴合其 Vocal Signature；按旁白/对白/侧影决定是否二次口型重绘。
+* **主导面部微动作 ≤1/镜 (One Facial Beat Rule)**：一条动态 prompt 至多承载 1 个主导面部微动作（瞳孔 / 嘴角 / 眉 / 凝视选一）。超过 1 个的，拆去静态首帧（生图模型承接面部表情强于视频模型）、拆去相邻镜、或降级为环境/光影语言。**禁止在同一镜堆"瞳孔收缩+嘴角微颤+移开目光+沉重呼吸"式连环微表情**——视频模型会产出面瘫或面部扭曲。
+* **可行性分级与兜底 (Feasibility & Fallback)**：引用导演「AI 表现力分级」——⚠️ 级（面部/眼部、泪水沿纹理、连续复杂手势）默认只在**面部大特写**镜使用；若镜头为中景及以上、或未挂 LoRA/ControlNet，把该微动作**降级为环境替代或删去**并标 `[Needs assist]`。级 1 身体/器物动作可放心使用。
 
 ### 8. 生成风险标记 (Risk Alert)
 
@@ -109,7 +114,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 
 ### Shot 1.1 [来电爆点 / 单角色特写]
 
-> 📋 **制作参数**：3s | 景别 极特写 | 机位 平视略仰 | 光质 低照度硬光 | 焦段 100mm macro | Cut on Action：全息先于声音闪现瞬间切镜
+> 📋 **制作参数**：3s | 景别 极特写 | 机位 平视略仰 | 光质 低照度硬光 | 焦段 100mm macro
 > ⚠️ **风险标记**：Medium（含投影透明材质）
 
 **1. 静态首帧 Prompt（生图工具）：**
@@ -132,6 +137,8 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 ```
 
 **4. 后期 Lip-Sync 策略：** `@Char_Target 为全息侧影 + 纯 V.O.，无需口型重绘；本镜 @Char_Main 无对白，无需重绘`
+
+**5. 剪辑端 (Edit Point，不进生成 prompt)：** `Cut on Action @ 全息完全成形的瞬间（先于声）→ Shot 1.2 从全息显现的中途接管`。生成端只给"全息成形"的完整过冲素材，剪切由后期执行。
 
 ---
 
@@ -162,7 +169,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 
 ---
 
-*（后续 Shot 1.3..N 依同骨架输出直到场景结束；新场景先发新 Scene Baseline 卡再拆镜。单角色镜省去 Spatial Layout 行；无台词镜省去 Audio Vocal 行。）*
+*（后续 Shot 1.3..N 依同骨架输出直到场景结束；新场景先发新 Scene Baseline 卡再拆镜。单角色镜省去 Spatial Layout 行；无台词镜省去 Audio Vocal 行；有剪切意图的镜补第 5 段 Edit Point，无剪切意图可省。）*
 ```
 
 ---
