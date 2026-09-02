@@ -25,7 +25,7 @@
 
 动笔前列出三轴并全部写进封面头——它们决定微动作/材质/声音/构图词汇与全片渲染面貌，必须**先于**角色 Manifest 确定：
 
-1. **情绪物理场 Preset**：按题材在 Preset A / B / C 或自定义中选 1 个（情绪基调、微动作、材质物理、视听词库、声音脾气）。
+1. **情绪物理场 Preset**：按题材在 Preset A / B / C 或自定义中选 1 个（情绪基调、对白权重、微动作、材质物理、视听词库、声音脾气）。
 2. **渲染风格 Style Key**：写一串含**媒介 + 光影 + 清晰度**三要素的渲染串。用户给了画风字眼→采纳并补全三要素；只有抽象概念→译成具体串。**此键必须先于角色面世，因为角色 Face Baseline 的媒介必须与它一致。**
 3. **演出语法修正包（可选）**：题材若属于某影像传统（动漫/纪录片等），按需声明挂载包；包内词汇只在被声明时启用。
 
@@ -113,6 +113,18 @@
 
 > 硬规则：**每个造型 Prompt 必须整段内联 Face Baseline**（工具无法跨 Prompt 记忆人物），且各造型之间只允许发型/服装/伤痕/光照不同，**五官基线逐字一致**；造型 prompt 的渲染面貌统一由 `{{Style Key}}` 提供，**不手写具体渲染器**。
 
+#### （可选）关系与秘密矩阵 (Relationship & Secrets Matrix)
+
+项目级可选块，位于**全部 @Char 之后、正文幕段之前**。默认不输出；当题材为强信息差/悬疑/博弈（多为 Preset A）或用户要求时启用——它是潜台词与反转的发动机，让"谁知道什么、谁在骗谁"贯穿全片而不漂移：
+
+```markdown
+* **关系与秘密矩阵**：
+  * @Char_X — @Char_Y：[真实关系 / 表面关系 / 各自动机]
+  * 隐瞒与欺骗：[@Char_X 对 @Char_Y 隐瞒了什么；该谎言在哪个幕段被拆穿]
+  * 关键秘密与揭穿时刻：[秘密内容] + [揭穿幕段/时间码] —— 必须服务戏剧核的兑现
+  * 矩阵一经输出即成为设定圣经，后续 Pass 与分镜只增不删。
+```
+
 ### 2. 正文剧情幕段 (Acts)
 
 每个幕段按如下骨架组织，幕段数量由规则 1 决定：
@@ -133,6 +145,8 @@
 * **对白/旁白 Vocal**：[极简台词；须贴合角色 Vocal Signature]
 ```
 
+> **场景粒度提示**：一个幕段若内含多个不同地点/时间的场面（长片、B 线并行常见），可在幕段内按 `Scene N-A / N-B` 自行分小节；分镜层会为每个新场面发独立 Scene Baseline 卡。
+
 ---
 
 ## 四、输出范例 (Output Sample)
@@ -142,7 +156,7 @@
 
 **所属题材与世界观**：赛博朋克 × 悬疑情感；潮湿雨夜的未来旧城，霓虹与记忆数据交错。
 **情绪物理场 Preset**：Preset A（高张力暗调），材质层混用 Preset C 的梦境奇观。
-**渲染风格 Style Key**：cinematic photorealistic, Arri Alexa LF capture, naturalistic contrast, 8k resolution
+**渲染风格 Style Key**：cinematic photorealistic, Arri Alexa LF capture, high-contrast cold cinematic grade, 8k resolution
 **演出语法修正包**：无
 **目标时长**：4 分钟
 **画幅**：--ar 9:16
@@ -168,6 +182,10 @@
 * **潜台词微动作**：影像总是先半秒于声音出现（信息差）。
 * **固定面部基线 Face Baseline**：`Female, 31, East-Asian, soft round face, calm grey eyes, small mole under right eye, long straight black hair, gentle pale skin`
 * **AI 角色造型 Prompts（N=1 套）**：`[Face Baseline 原样内联], translucent blue hologram dress, rain-lit apartment interior, edge-lit by projector light, {{Style Key}}, --ar 9:16, ... 同上 Negative`
+* **关系与秘密矩阵**（Preset A 信息差题材，启用）：
+  * @Char_Main — @Char_Target：真实=陈默与其亡妻（影像为预设留言、非实时通讯）；表面=接单人与委托人。
+  * 隐瞒与欺骗：林岚隐瞒"最后一单收货人 = 陈默失散多年的孩子"（幕段 4 拆穿）；陈默对自己隐瞒"他一直在删改妻子死因的记忆"（幕段 3 埋引线）。
+  * 关键揭穿：幕段 4 收货人身份揭穿 → 终幕兑现戏剧核（放手 = 把记忆交还孩子）。
 
 ### 2. 正文剧情幕段
 

@@ -31,12 +31,14 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 
 * **继承来源**：从封面头读取 `情绪物理场 Preset`、`渲染风格 Style Key`、`演出语法修正包`（可选）、`画幅`。
 * **Style Key 注入**：所有 prompt 一律以 `{{Style Key}}` 槽位填充（写作时把剧本头的 Style Key 原文粘入该槽）。**不得手写引擎 token**（UE5 / Octane / Arri Alexa 等只在其属于 Style Key 时才出现）。
+* **光语言并入媒介（禁止并置）**：每镜/每造型的"光质"措辞必须是"Preset 光感意图在该 Style Key 媒介内的表达"（见导演冲突翻译原则）。禁止把意图级词与媒介词并列成互相打架的一串——如 Style Key 为自然主义胶片或 2D 动漫时，再加 `high contrast cold tone` 即自相矛盾。**对比与色温交给 Style Key 独占，镜内只写光源方向与明暗结构。**
 * **演出包执行**：封面头声明了演出修正包时，在对应镜头的构词中加入包内程式（如动漫演出包的速度线/夸张透视），且遵守该包自限；未声明则一律不用。
 * **画幅继承**：读取 `画幅` 键的 `--ar`；缺省时短剧默认 `--ar 9:16`、电影感默认 `--ar 16:9`。**每张静态首帧与动态 Video Prompt 末尾都强制追加**。竖屏多用单主体中近景/垂直纵深/顶部空间，避免宽幅群戏与横向长镜头。
 * **画质重申**：即便 Style Key 已含清晰度，运镜/关键帧仍须显式重申焦段、机位轨迹与"承接 Scene Baseline 光照"，防止运动中质感漂移。
 
 ### 3. 双重防坍塌工程 (Scene Anchor + Shot Continuation)
 
+* **场景粒度声明**：本体系把"场景"定义为**单一地点 × 连续时间**的场面。一个幕段通常只有一个场面；若一个幕段内含多次地点/时间跳变（长片、中短剧、B 线并行常见），必须为每个新场面**另发独立 Scene Baseline 卡**，按 `Scene N`（跨幕）/ `Scene N-A / N-B`（同幕多场）编号，镜头号前缀随之改为 `Shot N-A.1`。
 * **场景级锚点卡 (Scene Baseline Anchor)**：每个场景（幕段）的首镜前输出一张 `Scene Baseline` 卡：主光源方向/色温/强度、空间材质与主色调、摄影主角度、在场 @Char 与关键道具、时间/天气，以及**声音基准**（本场 Ambience 与 Foley 基调）。该卡是本场景内所有镜头与声音的稳定回归基准。
 * **静态锚点**：场景内每镜的静态照明一律引用场景卡（`Lighting: matching Scene N Baseline, ...`），而非只认上一镜——链条中断仍能回归，杜绝雪球式漂移。
 * **运动接续 (Motion Transition)**：动态 Prompt 以接续态描述：`Starting from [End State of Shot X.X], camera [Trajectory], subject [New Action]`。
@@ -86,7 +88,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 ```markdown
 # 分镜列表：《[剧名]》
 
-**对应剧本总时长**：[时长] | **画幅**：[--ar 9:16] | **Style Key 继承**：[封面头原文] | **总镜头数**：[Shot 总数]
+**对应剧本总时长**：[时长] | **画幅**：[--ar 9:16] | **Style Key 继承**：cinematic photorealistic, Arri Alexa LF capture, high-contrast cold cinematic grade, 8k resolution | **总镜头数**：[Shot 总数]
 
 ---
 
@@ -106,7 +108,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 **1. 静态首帧 Prompt（生图工具）：**
 
 ```text
-@Char_Main [造型 1：夜雨风衣], extreme close-up macro on face at 100mm, low-angle profile tilted slightly up, hard cold blue key light from left, high-contrast cold tone, eyes widening as a faint blue hologram reflection crosses the iris, lips parted mid-breath, Lighting: matching Scene 1 Baseline, {{Style Key}}, --ar 9:16, Negative Prompts: no exaggerated facial expressions, no chaotic background noise, no extra limbs
+@Char_Main [造型 1：夜雨风衣], extreme close-up macro on face at 100mm, low-angle profile tilted slightly up, hard cold blue key light from left, deep cold shadows, eyes widening as a faint blue hologram reflection crosses the iris, lips parted mid-breath, Lighting: matching Scene 1 Baseline, {{Style Key}}, --ar 9:16, Negative Prompts: no exaggerated facial expressions, no chaotic background noise, no extra limbs
 ```
 
 **2. 动态视频 Prompt（视频模型输入）：**
@@ -162,7 +164,7 @@ LLM 根据剧本时长与动作密集度**自主决定总镜头数与每镜时�
 
 1. 每个 @Char 引用都能在剧本 Manifest 找到对应 Face Baseline + 造型索引；多角色镜遵守空间锁/主从分级；
 2. 每个场景都有 Scene Baseline 卡（含声音基准），场景内镜头照明/环境声引用卡而非凭空捏造；
-3. 全部 prompt 已把 `{{Style Key}}` 替换为封面头原文，且无游离的手写引擎 token；
+3. 全部 prompt 已把 `{{Style Key}}` 替换为封面头原文，无游离的手写引擎 token，光措辞已并入所选媒介（无意图词/媒介词打架的并置）；
 4. 画幅 `--ar` 出现在全部静态/动态 prompt；High Risk 镜均已标注并给处理建议；
 5. 对白镜含口型锚点，台词文本进 Audio 区并贴合 Vocal Signature；
 6. 无对白/无特殊 Foley 的镜不重复堆 Audio 区（Ambience 引用场景卡即可）。
