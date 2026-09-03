@@ -2,7 +2,7 @@
 ; 五官
 
 strict frontal highly detailed face texture, 
-cinematic photorealistic, 8k resolution, Arri Alexa LF capture, Negative Prompts: [no exaggerated facial expressions, no chaotic background noise, no extra limbs, no multi-color hair highlights beyond definition], 
+cinematic hyper-photorealistic, Arri Alexa LF capture, naturalistic lighting contrast, 8k resolution,
 --ar 1:1,
 
 ; 全身
@@ -15,12 +15,17 @@ head-to-toe view,
 standing in a standard neutral upright posture,
 empty hands at sides,
 
-cinematic photorealistic, 8k resolution, Arri Alexa LF capture, Negative Prompts: [no exaggerated facial expressions, no chaotic background noise, no extra limbs, no multi-color hair highlights beyond definition], 
+cinematic hyper-photorealistic, Arri Alexa LF capture, naturalistic lighting contrast, 8k resolution
 --ar 9:16,
 
 ; 耳环
 
-Each earring is crafted from polished 18K gold-plated silver and features a compound design. At the top, a single 4.8mm round freshwater pearl with a natural lustrous finish is nestled against two tiny 1.2mm brilliant-cut white diamonds (or cubic zirconia) in micro-prong settings. Suspended directly below this cluster is the main stone: an opulent 8mm x 8mm octagon Emerald-cut teal-blue (sea blue) faceted gem (like topaz or high-grade cubic zirconia), held in a delicate gold bezel setting with distinct beveled edges. The teal gem has deep, multi-faceted internal fire and sharp cut lines. The entire piece has a delicate, high-end designer feel, measuring roughly 1.2cm in total height.
+The intricate stud earring is small, designed to rest daintily on the earlobe. It features a specific asymmetrical two-element structure.
 
+Sitting directly on the earlobe is a tiny, perfectly spherical white pearl, which has a lustrous quality and a smooth surface. It is positioned at the very top of the earring structure.
+
+Attached directly below the tiny spherical pearl (and only below, without other side stones) is a small, precision-cut octagonal vibrant turquoise blue cubic zirconia. The gem is small, matching the diameter of the pearl above it, creating a compact, stacked 'I' or 'column' shape. The blue stone is set in a delicate, minimalist gold-plated claw setting, showing its many facets and deep, reflective blue-green color. All elements are scaled down significantly, appearing as small, refined ear studs.
+
+All materials (polished gold, faceted stone, smooth pearl) are rendered with photorealistic detail and material-specific gloss.
 
 
