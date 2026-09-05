@@ -1,7 +1,8 @@
 
 ; 五官
 
-strict frontal highly detailed face texture, 
+背景颜色不变或者纯色
+strict frontal highly detailed face texture, 发顶之上至锁骨
 cinematic hyper-photorealistic, Arri Alexa LF capture, naturalistic lighting contrast, 8k resolution,
 --ar 1:1,
 
@@ -29,3 +30,16 @@ Attached directly below the tiny spherical pearl (and only below, without other 
 All materials (polished gold, faceted stone, smooth pearl) are rendered with photorealistic detail and material-specific gloss.
 
 
+;
+
+
+A 16:9 multi-view full-body character reference sheet featuring three separate panels side by side on a unified background:
+Left panel: Back view of the subject.
+Middle panel: Left profile view of the subject.
+Right panel: Right profile view of the subject.
+
+Character & Pose:The character maintains the exact same standing pose, outfit, proportions, facial features, and expressions across all three views, strictly consistent with the provided front-view reference image.
+
+Environment & Lighting:Minimalist studio setting with a clean neutral backdrop. Uniform soft naturalistic directional lighting and color balance consistent across all three panels, seamless spatial unity, no border lines between panels.
+
+Style & Quality:cinematic hyper-photorealistic, Arri Alexa LF capture, naturalistic lighting contrast, fine fabric textures, sharp focus, 8k resolution --ar 16:9
