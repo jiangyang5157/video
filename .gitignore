@@ -1,5 +1,6 @@
 # File System
 .DS_Store
+/assets/tmp
 
 # Environment and Keys
 .env
